@@ -1,0 +1,45 @@
+{
+  "name": "astro-orbit",
+  "type": "module",
+  "version": "1.0.0",
+  "exports": {
+    ".": "./src/index.ts",
+    "./components": "./src/components/index.ts",
+    "./components/*": "./src/components/*",
+    "./theme.css": "./src/theme/theme.css"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "astro": "^5.0.0"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.15",
+    "tailwindcss": "^4.1.15"
+  },
+  "description": "A comprehensive theme package for Astro projects featuring a modern design system, reusable components, and Tailwind CSS v4 integration",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delta-incubator/astro-orbit.git"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "theme",
+    "tailwindcss",
+    "components",
+    "design-system",
+    "ui",
+    "astro-component"
+  ],
+  "author": "Yufa Li",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/delta-incubator/astro-orbit/issues"
+  },
+  "homepage": "https://github.com/delta-incubator/astro-orbit#readme"
+}
