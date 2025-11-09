@@ -5,23 +5,31 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "development": "./dist/index.ts",
       "default": "./dist/index.js"
     },
-    "./components": "./dist/components/index.js",
-    "./components/*": "./dist/components/*",
-    "./theme.css": "./dist/theme.css"
+    "./components": "./src/components/index.ts",
+    "./components/*": "./src/components/*.astro",
+    "./theme.css": "./src/theme/theme.css"
   },
   "scripts": {
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
     "format": "prettier --check .",
     "format:fix": "prettier --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepack": "pnpm build",
+    "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
     "astro": "^5.0.0"
