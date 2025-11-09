@@ -7,7 +7,6 @@
   "types": "./dist/index.d.ts",
   "files": [
     "dist",
-    "src",
     "README.md",
     "LICENSE"
   ],
@@ -16,12 +15,12 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./components": "./src/components/index.ts",
-    "./components/*": "./src/components/*.astro",
-    "./theme.css": "./src/theme/theme.css"
+    "./components": "./dist/components/index.js",
+    "./components/*": "./dist/components/*.astro",
+    "./theme.css": "./dist/theme/theme.css"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "./scripts/build",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
@@ -73,5 +72,8 @@
     "url": "https://github.com/delta-incubator/astro-orbit/issues"
   },
   "homepage": "https://github.com/delta-incubator/astro-orbit#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
 }
