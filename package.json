@@ -1,15 +1,27 @@
 {
   "name": "astro-orbit",
-  "type": "module",
+  "description": "A comprehensive theme package for Astro projects featuring a modern design system, reusable components, and Tailwind CSS v4 integration",
   "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./components": "./src/components/index.ts",
-    "./components/*": "./src/components/*",
-    "./theme.css": "./src/theme/theme.css"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "development": "./dist/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./components": "./dist/components/index.js",
+    "./components/*": "./dist/components/*",
+    "./theme.css": "./dist/theme.css"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
     "astro": "^5.0.0"
@@ -18,10 +30,21 @@
     "@tailwindcss/vite": "^4.1.15",
     "tailwindcss": "^4.1.15"
   },
-  "description": "A comprehensive theme package for Astro projects featuring a modern design system, reusable components, and Tailwind CSS v4 integration",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "devDependencies": {},
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@typescript-eslint/parser": "^8.46.2",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.5.0",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.4",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "prettier-plugin-tailwindcss": "^0.7.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/delta-incubator/astro-orbit.git"
@@ -36,10 +59,11 @@
     "ui",
     "astro-component"
   ],
-  "author": "Yufa Li",
+  "author": "Databricks OSS Team",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/delta-incubator/astro-orbit/issues"
   },
-  "homepage": "https://github.com/delta-incubator/astro-orbit#readme"
+  "homepage": "https://github.com/delta-incubator/astro-orbit#readme",
+  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
 }
