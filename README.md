@@ -28,11 +28,11 @@ In your `astro.config.mjs` (or `astro.config.ts`):
 
 ```js
 import { defineConfig } from 'astro/config';
-import { plugin } from 'astro-orbit';
+import astroOrbit from 'astro-orbit';
 
 export default defineConfig({
   integrations: [
-    plugin()
+    astroOrbit()
   ],
 });
 ```

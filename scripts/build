@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -e
+
+# Clean dist directory
+rm -rf dist
+
+# Compile TypeScript
+tsc
+
+# Copy Astro components
+mkdir -p dist/components
+cp src/components/*.astro dist/components/
+
+# Copy astro.d.ts if it exists
+if [ -f "src/components/astro.d.ts" ]; then
+  cp src/components/astro.d.ts dist/components/
+fi
+
+# Copy theme CSS
+mkdir -p dist/theme
+cp src/theme/theme.css dist/theme/
+
+echo "✅ Build complete!"
