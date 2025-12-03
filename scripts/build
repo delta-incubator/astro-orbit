@@ -17,6 +17,12 @@ if [ -f "src/components/astro.d.ts" ]; then
   cp src/components/astro.d.ts dist/components/
 fi
 
+# Copy Menu directory if it exists
+if [ -d "src/components/Menu" ]; then
+  mkdir -p dist/components/Menu
+  cp src/components/Menu/*.astro dist/components/Menu/
+fi
+
 # Copy theme CSS
 mkdir -p dist/theme
 cp src/theme/theme.css dist/theme/

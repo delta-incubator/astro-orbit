@@ -8,7 +8,7 @@
 
 interface Props {
   /* Content */
-  children: unknown;
+  children?: unknown; // Optional in Astro since children are passed via slots
   id?: string | undefined;
   className?: string | undefined;
 }
