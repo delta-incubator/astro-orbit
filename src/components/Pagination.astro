@@ -11,7 +11,7 @@ interface Props {
 const { prevUrl, nextUrl, currentPage, lastPage } = Astro.props;
 ---
 
-<nav class="flex items-center justify-center gap-4 mt-8">
+<nav class="mt-8 flex items-center justify-center gap-4">
   {
     prevUrl && (
       <a href={prevUrl} class="slider-prev slider-button -left-2.5 sm:-left-4">

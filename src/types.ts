@@ -1,7 +1,7 @@
 /*
  * Components
  */
-type IconType = 
+type IconType =
   | "close"
   | "copy"
   | "more"
@@ -33,4 +33,3 @@ interface GroupMenuItem {
 }
 
 export type MenuItem = SingleMenuItem | GroupMenuItem;
-
