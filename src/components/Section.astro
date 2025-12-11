@@ -1,43 +1,98 @@
 ---
+/**
+ * Section
+ * =======
+ * Creates a "section", which is a basic building-block style component for our layout.
+ *
+ * Slots
+ * -----
+ * Section has three slots:
+ * - default: Section content
+ * - before-header: Content to put before the section's header
+ * - title: Content to put in the title (requires title to be set -- use " " as the title if you want it empty).
+ * - subtitle: Content to put in the header, below the title (requires title to be set).
+ */
+import clsx from "clsx";
 import Container from "./Container.astro";
+import type { HeaderVariant } from "./Typography.astro";
+import Typography from "./Typography.astro";
 
 interface Props {
-  /* Content */
-  children: unknown;
-  /* Padding */
-  padding?: "xl" | "lg" | "md" | "sm" | "none" | undefined;
-  /* HTML ID */
+  children?: unknown; // Optional in Astro since children are passed via slots
+  background?: "dark" | "light";
+  className?: string;
+  hasContainer?: boolean;
+  isHeaderCentered?: boolean;
+  isPrimary?: boolean;
+  padding?: "none" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl" | "xxxl";
+  title?: string;
+  titleSize?: HeaderVariant;
+  /* Legacy props for backward compatibility */
   id?: string | undefined;
-  /* Class name */
-  className?: string | undefined;
-  /* Container HTML ID */
   idContainer?: string | undefined;
-  /* Container class name */
   classNameContainer?: string | undefined;
 }
 
 const {
-  padding = "md",
-  id,
+  background,
   className,
+  hasContainer = true,
+  isHeaderCentered = false,
+  isPrimary = false,
+  padding,
+  title,
+  titleSize = "h2",
+  id,
   idContainer,
   classNameContainer,
 } = Astro.props;
+
+const ContainerComponent = hasContainer ? Container : Fragment;
 ---
 
-<section
+<div
   id={id}
-  class:list={[
+  class={clsx(
     {
-      "py-8": padding === "sm",
-      "py-8 sm:py-16": padding === "md",
-      "py-8 sm:py-24": padding === "lg",
-      "py-8 sm:py-40": padding === "xl",
+      "py-none": padding === "none",
+      "py-xs": padding === "xs",
+      "py-sm": padding === "sm",
+      "py-md": padding === "md",
+      "py-lg": padding === "lg",
+      "py-xl": padding === "xl",
+      "py-xxl": padding === "xxl",
+      "py-xxxl": padding === "xxxl",
+
+      // Dark bg
+      "bg-darkBg": background === "dark",
+      "text-darkColor": background === "dark",
+
+      // Light bg
+      "bg-lightBg": background === "light",
+      "text-lightColor": background === "light",
     },
     className,
-  ]}
+  )}
 >
-  <Container id={idContainer} className={classNameContainer}>
+  <ContainerComponent id={idContainer} className={classNameContainer}>
+    <slot name="before-header" />
+    {
+      title && (
+        <div
+          class={clsx("mb-8", {
+            "text-center": isHeaderCentered,
+          })}
+        >
+          <Typography variant={isPrimary ? "h1" : titleSize}>
+            {title}
+            <slot name="title" />
+          </Typography>
+          <div class="subtitle-container mx-auto max-w-4xl">
+            <slot name="subtitle" />
+          </div>
+        </div>
+      )
+    }
     <slot />
-  </Container>
-</section>
+  </ContainerComponent>
+</div>

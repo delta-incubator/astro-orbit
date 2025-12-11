@@ -1,25 +1,71 @@
 ---
 /**
  * Interactive button
+ * Supports both astro-orbit API (color, isFullWidth) and delta-theme API (variant, size, borderStyle)
  */
+import type { HTMLAttributes } from "astro/types";
+import clsx from "clsx";
+
 interface Props {
   /** Button label/contents */
-  children: unknown;
+  children?: unknown; // Optional in Astro since children are passed via slots
   /** URL to link to - if set, this will configure the button as a link */
-  href?: string | undefined;
-  /** Button color */
+  href?: string | HTMLAttributes<"a">["href"];
+  /** Button color (astro-orbit API) */
   color?: "primary" | "secondary" | "accent" | "neutral" | "white" | undefined;
+  /** Button variant (delta-theme API) - takes precedence over color */
+  variant?: "primary" | "secondary" | "accent" | "more" | undefined;
+  /** Button size (delta-theme API) */
+  size?: "sm" | "md" | undefined;
+  /** Border style (delta-theme API) */
+  borderStyle?: "outlined" | "normal" | undefined;
   /** Specify HTML button type */
   type?: "button" | "submit" | undefined;
   /** Whether the button should be full width or not */
   isFullWidth?: boolean | undefined;
   /** Additional HTML classname to add */
   className?: string | undefined;
+  /** HTML id attribute */
+  id?: string | undefined;
+  /** Target for links */
+  target?: HTMLAttributes<"a">["target"];
+  /** Download attribute for links */
+  isDownload?: boolean | undefined;
 }
 
-const { type, href, color = "primary", isFullWidth, className } = Astro.props;
+const {
+  type,
+  href,
+  color = "primary",
+  variant,
+  size = "md",
+  borderStyle = "normal",
+  isFullWidth,
+  className,
+  id,
+  target,
+  isDownload,
+} = Astro.props;
 
-const cx = [
+// If variant is provided, use delta-theme API, otherwise use astro-orbit API
+const useDeltaTheme = !!variant;
+
+// Delta-theme style classes
+const deltaThemeClasses = clsx(
+  {
+    "button-size-sm": size === "sm",
+    "button-size-md": size === "md",
+    "variant-primary": variant === "primary",
+    "variant-secondary": variant === "secondary",
+    "variant-accent": variant === "accent",
+    "variant-more": variant === "more",
+    "border-outlined": borderStyle === "outlined",
+  },
+  className,
+);
+
+// Astro-orbit style classes (only used if variant is not provided)
+const astroOrbitClasses = [
   "appearance-none min-h-[50px] text-lg py-3 px-7 font-medium justify-center items-center rounded-md cursor-pointer transition-colors",
   {
     "flex w-full": isFullWidth,
@@ -41,12 +87,121 @@ const cx = [
 
 {
   href ? (
-    <a href={href} class:list={cx}>
+    useDeltaTheme ? (
+      <a
+        href={href}
+        class={deltaThemeClasses}
+        target={target}
+        download={isDownload}
+        id={id}
+      >
+        <slot />
+      </a>
+    ) : (
+      <a
+        href={href}
+        class:list={astroOrbitClasses}
+        target={target}
+        download={isDownload}
+        id={id}
+      >
+        <slot />
+      </a>
+    )
+  ) : useDeltaTheme ? (
+    <button type={type} class={deltaThemeClasses} id={id}>
       <slot />
-    </a>
+    </button>
   ) : (
-    <button type={type} class:list={cx}>
+    <button type={type} class:list={astroOrbitClasses} id={id}>
       <slot />
     </button>
   )
 }
+<style>
+  /* Delta-theme button styles */
+  /* Base styles for all delta-theme buttons (when variant is provided) */
+  a.variant-primary,
+  a.variant-secondary,
+  a.variant-accent,
+  button.variant-primary,
+  button.variant-secondary,
+  button.variant-accent {
+    display: inline-block;
+    line-height: 1;
+    border-radius: 3px;
+    text-decoration: none;
+    font-weight: var(--font-weight-bold);
+    white-space: nowrap;
+  }
+
+  a.variant-more,
+  button.variant-more {
+    display: inline-block;
+    line-height: 1;
+    text-decoration: none;
+    font-weight: var(--font-weight-bold);
+    border: none;
+    white-space: nowrap;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  .button-size-sm {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: var(--font-size-small);
+  }
+  .button-size-md {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-size: var(--font-size-primary);
+  }
+
+  .variant-primary {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+  }
+  a.variant-primary:hover,
+  button.variant-primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+  }
+  .variant-primary.border-outlined {
+    color: var(--color-primary);
+    background-color: var(--color-white);
+  }
+  a.variant-primary.border-outlined:hover,
+  button.variant-primary.border-outlined:hover {
+    color: var(--color-primary-hover);
+    background-color: var(--color-white);
+  }
+
+  .variant-secondary {
+    color: var(--color-primary);
+    background-color: transparent;
+    border: 1px solid var(--color-primary);
+  }
+  a.variant-secondary:hover,
+  button.variant-secondary:hover {
+    color: var(--color-white);
+    background-color: var(--color-primary);
+  }
+
+  .variant-accent {
+    color: var(--color-text);
+    background-color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+  }
+  .variant-accent.border-outlined {
+    color: var(--color-accent);
+    background-color: var(--color-text);
+  }
+
+  .variant-more {
+    color: var(--color-primary);
+  }
+  a.variant-more:hover,
+  button.variant-more:hover {
+    color: var(--color-link);
+  }
+</style>

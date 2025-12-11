@@ -4,11 +4,12 @@
  *
  * Creates a centered container for your content. This container is responsive
  * and will adjust depending on the screen size.
+ * Uses explicit width calculations to account for padding (32px total = 16px on each side).
  */
 
 interface Props {
   /* Content */
-  children: unknown;
+  children?: unknown; // Optional in Astro since children are passed via slots
   id?: string | undefined;
   className?: string | undefined;
 }
@@ -16,12 +17,31 @@ interface Props {
 const { id, className } = Astro.props;
 ---
 
-<div
-  id={id}
-  class:list={[
-    "mx-auto px-4 sm:w-[var(--breakpoint-sm)] md:w-[var(--breakpoint-md)] lg:w-[var(--breakpoint-lg)] xl:w-[var(--breakpoint-xl)]",
-    className,
-  ]}
->
+<div id={id} class:list={["container mx-auto w-full px-4", className]}>
   <slot />
 </div>
+<style>
+  @media (min-width: 576px) {
+    .container {
+      width: calc(576px - 32px);
+    }
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      width: calc(768px - 32px);
+    }
+  }
+
+  @media (min-width: 992px) {
+    .container {
+      width: calc(992px - 32px);
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .container {
+      width: calc(1200px - 32px);
+    }
+  }
+</style>
